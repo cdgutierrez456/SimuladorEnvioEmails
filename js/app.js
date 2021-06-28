@@ -7,6 +7,8 @@ const email = document.querySelector('#email');
 const asunto = document.querySelector('#asunto');
 const mensaje = document.querySelector('#mensaje');
 
+const er = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
 eventListeners();
 function eventListeners() {
     // Cuando la app inicia
@@ -30,10 +32,13 @@ function iniciarApp() {
 // Validando formulario 
 
 function validarFormulario(e) {
+
     if (e.target.value.length > 0) {
         // Eliminando cuadro de errores
         const error = document.querySelector('p.error');
-        error.remove();
+        if (error) {
+            error.remove();
+        }
         e.target.style.borderBottomColor = 'green';
     } else {
         e.target.style.borderBottomColor = 'red';
@@ -42,18 +47,24 @@ function validarFormulario(e) {
 
     if (e.target.type === 'email') {
 
-        const er = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-
         if (er.test(e.target.value)) {
             // Eliminando cuadro de errores
             const error = document.querySelector('p.error');
-            error.remove();
+            if (error) {
+                error.remove();
+            }
             e.target.style.borderBottomColor = 'green';
         } else {
             e.target.style.borderBottomColor = 'red';
             mostrarError('E-mail no valido');
         }
     }
+
+    if (er.test(email.value) && asunto.value !== '' && mensaje.value !== '') {
+        btnEnviar.disable = true;
+        btnEnviar.classList.remove('cursor-not-allowed', 'opacity-50');
+    }
+
 }
 
 function mostrarError(mensaje) {
