@@ -31,17 +31,25 @@ function iniciarApp() {
 
 function validarFormulario(e) {
     if(e.target.value.length > 0) {
-        console.log('bien')
+        // console.log('bien')
         e.target.style.borderBottomColor = 'green';
     } else {
         e.target.style.borderBottomColor = 'red';
-        mostrarError();
+        mostrarError('Todos los campos son obligatorios');
     }
+
+    if(e.target.type === 'email') {
+        const resultado = e.target.value.indexOf('@');
+        if(resultado < 0) {
+            mostrarError('El email no es valido');
+        }
+    }
+
 }
 
-function mostrarError() {
+function mostrarError(mensaje) {
     const mensajeError = document.createElement('p');
-    mensajeError.textContent = 'Todos los campos son obligatorios';
+    mensajeError.textContent = mensaje;
     mensajeError.classList.add('border', 'border-red-500', 'background-color-100', 'text-red-500', 'p-3', 'mt-2', 'text-center', 'error');
 
     const errores = document.querySelectorAll('.error');
